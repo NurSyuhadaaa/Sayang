@@ -92,10 +92,21 @@
 </div>
 
 <!-- Audio Element -->
-<audio id="bgMusic" loop style="display: none;">
-  <source src="https://firebasestorage.googleapis.com/v0/b/mymaktehcafe-81d4e.appspot.com/o/sayang%2Faudio.mp3?alt=media&token=90263f65-ef27-4c52-af3d-15ebd631d074" type="audio/mpeg" />
-  Your browser does not support the audio element.
+<audio id="bgMusic" loop>
+  <source src="https://firebasestorage.googleapis.com/v0/b/mymaktehcafe-81d4e.firebasestorage.app/o/sayang%2Faudio.mp3?alt=media&token=90263f65-ef27-4c52-af3d-15ebd631d074" type="audio/mp3">
 </audio>
+
+<script>
+  document.addEventListener("click", () => {
+    const audio = document.getElementById("bgMusic");
+    if (audio.paused) {
+      audio.play().catch(err => console.log("Play error:", err));
+    }
+  }, { once: true }); // hanya sekali saja supaya tak trigger banyak kali
+</script>
+
+
+
 
 <!-- Script -->
 <script>
