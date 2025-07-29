@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Anniversary, My Love</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- html2pdf.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+<!-- Function download -->
+<script>
+  function downloadPDF() {
+    const element = document.getElementById('wish-container');
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Anniversary-Wish.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+</script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .dancing-font {
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .heart-beat {
+      animation: heartbeat 1.5s infinite, float 3s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .romantic-text {
+      background: linear-gradient(to right, #ff6b6b, #ffa3a3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .polaroid-effect {
+      background: white;
+      padding: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transform: rotate(2deg);
+      transition: all 0.3s ease;
+    }
+
+    .polaroid-effect:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .music-controls {
+      transition: all 0.3s ease;
+    }
+
+    .music-controls:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+<!-- Music Player -->
+<div class="fixed bottom-4 right-4 z-50 bg-white rounded-full shadow-xl p-3 music-controls">
+  <button id="playButton" class="bg-blue-500 text-white rounded-full p-3 focus:outline-none">
+    <i id="playIcon" class="fas fa-play text-xl"></i>
+  </button>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="assets/audio.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const bgMusic = document.getElementById('bgMusic');
+    const playButton = document.getElementById('playButton');
+    const playIcon = document.getElementById('playIcon');
+    const video = document.getElementById('annivVideo');
+
+
+    let isPlaying = false;
+
+    // Autoplay muzik bila page load
+    bgMusic.volume = 1;
+    bgMusic.play().then(() => {
+      isPlaying = true;
+      playIcon.classList.replace('fa-play', 'fa-pause');
+    }).catch((err) => {
+      console.log("Autoplay disekat:", err);
+    });
+
+    // Fungsi fade out audio
+    function fadeOutAudio(audio, callback) {
+      const fade = setInterval(() => {
+        if (audio.volume > 0.05) {
+          audio.volume -= 0.05;
+        } else {
+          audio.volume = 0;
+          clearInterval(fade);
+          audio.pause();
+          if (callback) callback();
+        }
+      }, 100);
+    }
+
+    // Fungsi fade in audio
+    function fadeInAudio(audio) {
+      audio.volume = 0;
+      audio.play().then(() => {
+        const fade = setInterval(() => {
+          if (audio.volume < 0.95) {
+            audio.volume += 0.05;
+          } else {
+            audio.volume = 1;
+            clearInterval(fade);
+          }
+        }, 100);
+      }).catch(err => {
+        console.log('Autoplay sambung gagal:', err);
+      });
+    }
+
+    // Klik main/pause
+    playButton.addEventListener('click', () => {
+      if (isPlaying) {
+        bgMusic.pause();
+        playIcon.classList.replace('fa-pause', 'fa-play');
+      } else {
+        bgMusic.play().then(() => {
+          playIcon.classList.replace('fa-play', 'fa-pause');
+        }).catch(err => {
+          console.log("Play error:", err);
+        });
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // Pause muzik bila video main
+    video.addEventListener('play', () => {
+      if (!bgMusic.paused) {
+        fadeOutAudio(bgMusic, () => {
+          playIcon.classList.replace('fa-pause', 'fa-play');
+          isPlaying = false;
+        });
+      }
+    });
+
+    // Sambung muzik bila video tamat
+    video.addEventListener('ended', () => {
+      fadeInAudio(bgMusic);
+      playIcon.classList.replace('fa-play', 'fa-pause');
+      isPlaying = true;
+    });
+  });
+</script>
+
+
+
+
+  <!-- Main Content -->
+  <div class="min-h-screen flex flex-col items-center justify-center px-4 py-12 pt-10 pb-12">
+    <!-- Header -->
+    <header class="text-center mb-12">
+      <h1 class="dancing-font text-5xl md:text-6xl lg:text-7xl font-bold text-blue-900 mb-4">
+        Happy One Year Sayang <span class="heart-beat text-red-500">❤</span>
+      </h1>
+      <p class="text-xl text-gray-600">Yeayyy kita dah setahun sayang!! </p>
+    </header>
+
+    <!-- Hero Image -->
+    <div class="w-full max-w-4xl mb-16 polaroid-effect">
+      <img src="../../assets/p1.jpg" alt="Couple at sunset" class="w-full h-auto rounded-lg"/>
+    </div>
+
+    <!-- Message Section -->
+    <div id="wish-container" class="max-w-3xl bg-white bg-opacity-80 rounded-xl p-8 shadow-lg mb-16 backdrop-blur-sm">
+      <div class="dancing-font text-4xl romantic-text mb-6 text-center">We did it Sayang!!</div>
+      <div class="space-y-4 text-gray-700 text-lg">
+        <p class="indent-8">Hi baby. Janji jangan nangis?. Today marks one whole year of us and even though we didn’t spend it the way most couples do, it still means everything to me. We've been through so much sayang. Not just distance. But the arguments, the silence, the breakdowns, the times we both tak tau pun nak kena buat apa.
+                    There were moments we really fought hard, felt like i gagal, tapi you tak pernah give up on us. You tak tinggal i pun even i suruh you tinggal i.</p>
+                
+                <p class="indent-8">And i nak you tau yang how much that means to me. I don't think I've ever said this properly but thank you sayang.
+                    For every single effort yang you bagi kat i. Thank you sebab care kat i. Thank you for checking me up when i went quiet. For trying to understand
+                    my mess, my overthinking, my moods. For being there in all the ways you could, even you couldn't physically be here.
+                </p>
+                
+                <p class="indent-8">I tak perfect sayang. I know I’ve had my moments. I mintak maaf untuk semua khilaf and salah i kat you selama ni. Dari selalu cakap kasar dengan you, tak dengar cakap you sampai la benda yang i memang tak patut buat pun.
+                    Tapi you still boleh maafkan i. Thank you so much sayang sebab banyak sabar dengan i. I tak tau nak describe thank you i dekat you macam mana. Thank you sebab jatuh cinta dengan i.
+                     Thank you untuk setiap i love you yang keluar dari mulut you untuk i. Thank you sebab buktikan dekat i yang real love still exist.
+                    Walaupun you nampak i macam tak kisah dengan you. But I want you to know I see everything you’ve done.
+                    Every tears, every effort, every sacrifice, every little thing you thought I wouldn’t notice. I did sayang. And I carry all of it with me. 
+                    </p>
+
+                 <p class="indent-8"> Eii tak suka tau buat wish camni, tak suka type sambil nangis. Jangan tinggal i tau sayang. I sayang you sangat sangat. Thank you sebab bertahan dengan i samapai sekarang. There're so many more to come. I janji dengan you,
+                    day by day i akan cuba jadi partner yang terbaik untuk you, sampai la rezeki kita dapat kahwin pun i akan cuba jadi isteri yang terbaik untuk you. And i nak you tahu, dalam usaha i ni,
+                    i perlukan support dari you jugak tau sayang. I janji dengan you walau apapun jadi i akan stay dengan you.
+                    </p>
+
+                    <p class="indent-8"> One year with you… and I’d still choose you. Through all the mess, all the distance, all the hard days, I’d still choose you. Again and again.
+                    </p>
+
+                   <p style="margin-bottom: 1em;">
+                    Thank you for loving me when i wasn’t easy to love.<br>
+                    Thank you for staying.<br>
+                    Thank you for not giving up on us.
+                    </p>
+        <p style="margin-bottom: 1em;">Happy anniversary, sayang.</p>
+      </div>
+      <div class="text-center mt-8">
+        <div class="dancing-font text-3xl text-pink-600 mb-2">Happy One Year Love</div>
+        <p class="text-gray-500">I love you so much Badrul Haziq</p>
+      </div>
+      
+<script>
+    function downloadPDF() {
+      const element = document.getElementById('wish-container');
+      const opt = {
+        margin:       0.5,
+        filename:     'ILoveYou.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+  
+    </div>
+      <div class="text-center -mt-7 no-print">
+  <button onclick="downloadPDF()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full shadow-md">
+    📄 Nak download wish tekan la sini hehe
+  </button>
+</div>
+
+    <!-- Memory Gallery -->
+    <h2 class="dancing-font text-4xl text-center mt-20 mb-10" style="color: #3e3a79;">
+  Our 1st Time Memories
+  <div class="text-lg mt-2" style="color: #1a1a1a;">Comel kann??!!! I tau kalau letak semua tak cukup page HAHAHAHAH tengok bawah tu comelkan kita?</div>
+</h2>
+
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Image cards -->
+        <div class="polaroid-effect"><img src="../../assets/p2.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">1st Date</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p10.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Hehe sukiya</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p8.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Genting</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p9.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Ayer 8</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p3.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Raya Together</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p4.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Zoo Date</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p5.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Concert Date</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p6.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Photobooth</p></div>
+        <div class="polaroid-effect"><img src="../../assets/p7.jpg" class="w-full h-64 object-cover rounded-t-lg"/><p class="text-center py-4 text-gray-700">Sendayan</p></div>
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-10 px-4">
+  <div class="bg-white bg-opacity-30 p-6 rounded-3xl shadow-2xl backdrop-blur-md w-full max-w-xl">
+    <h2 class="text-3xl font-bold text-center mb-6 text-black drop-shadow-lg">🎥 Kita edit sambil nangis tau ni T_T</h2>
+    <video id="annivVideo" controls class="w-full rounded-2xl shadow-lg aspect-video">
+      <source src="../../assets/v1.MOV" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <p class="text-center mt-4 text-black text-lg font-medium drop-shadow-md">I Love You Sayang 💖</p>
+  </div>
+</div>
+
+
+
+
+    <!-- Countdown to Next Anniversary --> 
+<div class="flex justify-center mt-24 mb-16 w-full">
+  <div class="bg-pink-50 p-8 rounded-xl shadow-inner w-full max-w-2xl">
+    <h2 class="dancing-font text-3xl text-center text-purple-600 mb-6">
+      Our Next Anniversary
+    </h2>
+    <div class="flex justify-center space-x-4 sm:space-x-8">
+      <div class="text-center">
+        <div id="days" class="text-4xl font-bold text-blue-500">00</div>
+        <div class="text-gray-600">Days</div>
+      </div>
+      <div class="text-center">
+        <div id="hours" class="text-4xl font-bold text-pink-500">00</div>
+        <div class="text-gray-600">Hours</div>
+      </div>
+      <div class="text-center">
+        <div id="minutes" class="text-4xl font-bold text-pink-500">00</div>
+        <div class="text-gray-600">Minutes</div>
+      </div>
+      <div class="text-center">
+        <div id="seconds" class="text-4xl font-bold text-pink-500">00</div>
+        <div class="text-gray-600">Seconds</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Final Message -->
+<div class="flex justify-center w-full">
+  <div class="max-w-2xl text-center mt-4">
+    <div class="dancing-font text-4xl text-pink-600 mb-3">Sincerely,</div>
+    <p class="text-lg text-gray-600 mb-8">Syuuu</p>
+    <div class="heart-beat text-6xl text-red-400 mb-14">❤</div>
+  </div>
+</div>
+
+  <!-- Countdown Script -->
+  <script>
+    function getNextAnniversary() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const anniversary = new Date(year, 6, 29, 0, 0, 0); // 29 Julai
+
+      if (anniversary < now) {
+        anniversary.setFullYear(year + 1);
+      }
+
+      return anniversary;
+    }
+
+    const nextAnniversary = getNextAnniversary();
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = nextAnniversary - now;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+
+</body>
+</html>
