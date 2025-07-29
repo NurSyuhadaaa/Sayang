@@ -25,7 +25,24 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+    body::before {
+    content: "";
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/mymaktehcafe-81d4e.firebasestorage.app/o/sayang%2Fbg.png?alt=media&token=b5fc8bb4-6c59-4014-a962-cb1ede24e7ca');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1; /* Ubah nilai ni untuk opacity */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
 
+  body {
+    position: relative;
+    z-index: 0;
+  }
     body {
       font-family: 'Montserrat', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -84,6 +101,23 @@
   </style>
 </head>
 <body>
+<!-- POPUP NOTIFICATION -->
+<div id="popup" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+  <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full text-center relative">
+    <h2 class="text-xl font-semibold text-pink-600 mb-3">Hello sayang! 💖</h2>
+    <p class="text-gray-700 mb-5">Sorry kalau i buat tak cantik hehe</p>
+    <button onclick="closePopup()" class="bg-red-700 text-white px-5 py-2 rounded-full hover:bg-red-700 transition">
+      I Love You 💕
+    </button>
+  </div>
+</div>
+
+<script>
+  function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+  }
+</script>
+
 <!-- Music Player Button -->
 <div class="fixed bottom-4 right-4 z-50 bg-white rounded-full shadow-xl p-3 music-controls">
   <button id="playButton" class="bg-blue-500 text-white rounded-full p-3 focus:outline-none">
@@ -91,18 +125,22 @@
   </button>
 </div>
 
-<!-- Audio Element -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" autoplay loop>
   <source src="https://firebasestorage.googleapis.com/v0/b/mymaktehcafe-81d4e.firebasestorage.app/o/sayang%2Faudio.mp3?alt=media&token=90263f65-ef27-4c52-af3d-15ebd631d074" type="audio/mp3">
 </audio>
 
 <script>
-  document.addEventListener("click", () => {
-    const audio = document.getElementById("bgMusic");
-    if (audio.paused) {
-      audio.play().catch(err => console.log("Play error:", err));
-    }
-  }, { once: true }); // hanya sekali saja supaya tak trigger banyak kali
+  const audio = document.getElementById("bgMusic");
+
+  // Cuba autoplay terus dulu
+  window.addEventListener('load', () => {
+    audio.play().catch(() => {
+      // Kalau gagal, tunggu user click
+      document.addEventListener("click", () => {
+        audio.play().catch(err => console.log("Play error:", err));
+      }, { once: true });
+    });
+  });
 </script>
 
 
@@ -219,7 +257,7 @@
                     Every tears, every effort, every sacrifice, every little thing you thought I wouldn’t notice. I did sayang. And I carry all of it with me. 
                     </p>
 
-                 <p class="indent-8"> Eii tak suka tau buat wish camni, tak suka type sambil nangis. Jangan tinggal i tau sayang. I sayang you sangat sangat. Thank you sebab bertahan dengan i samapai sekarang. There're so many more to come. I janji dengan you,
+                 <p class="indent-8"> Eii tak suka tau buat wish camni, tak suka type sambil nangis. Jangan tinggal i tau sayang. I sayang you sangat sangat. Thank you sebab bertahan dengan i sampai sekarang. There're so many more to come. I janji dengan you,
                     day by day i akan cuba jadi partner yang terbaik untuk you, sampai la rezeki kita dapat kahwin pun i akan cuba jadi isteri yang terbaik untuk you. And i nak you tahu, dalam usaha i ni,
                     i perlukan support dari you jugak tau sayang. I janji dengan you walau apapun jadi i akan stay dengan you.
                     </p>
@@ -230,9 +268,10 @@
                    <p style="margin-bottom: 1em;">
                     Thank you for loving me when i wasn’t easy to love.<br>
                     Thank you for staying.<br>
-                    Thank you for not giving up on us.
+                    Thank you for not giving up on us.<br>
+                    Thank you for everything sayang.
                     </p>
-        <p style="margin-bottom: 1em;">Happy anniversary, sayang.</p>
+        <p style="margin-bottom: 1em;">Happy anniversary, love.</p>
       </div>
       <div class="text-center mt-8">
         <div class="dancing-font text-3xl text-pink-600 mb-2">Happy One Year Love</div>
